@@ -6,6 +6,7 @@ Types:
 from vat_sense.types import (
     FindRate,
     Rate,
+    RateWithTaxRate,
     TaxRate,
     RateListResponse,
     RateCalculatePriceResponse,
@@ -73,7 +74,9 @@ Types:
 from vat_sense.types import (
     CreateInvoice,
     Invoice,
+    InvoiceBusinessInput,
     InvoiceConversionInput,
+    InvoiceCustomerInput,
     InvoiceResponse,
     InvoiceListResponse,
     InvoiceDeleteResponse,

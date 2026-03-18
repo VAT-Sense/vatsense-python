@@ -5,14 +5,16 @@ from __future__ import annotations
 from typing import Iterable
 from typing_extensions import Literal, Required, TypedDict
 
+from .invoice_business_input_param import InvoiceBusinessInputParam
+from .invoice_customer_input_param import InvoiceCustomerInputParam
 from .invoice_conversion_input_param import InvoiceConversionInputParam
 from .invoice.invoice_item_input_param import InvoiceItemInputParam
 
-__all__ = ["InvoiceUpdateParams", "Business", "Customer"]
+__all__ = ["InvoiceUpdateParams"]
 
 
 class InvoiceUpdateParams(TypedDict, total=False):
-    business: Required[Business]
+    business: Required[InvoiceBusinessInputParam]
 
     currency_code: Required[str]
     """The 3-character currency code the invoice is billed in."""
@@ -27,7 +29,7 @@ class InvoiceUpdateParams(TypedDict, total=False):
 
     conversion: InvoiceConversionInputParam
 
-    customer: Customer
+    customer: InvoiceCustomerInputParam
 
     has_vat: bool
     """Whether the invoice is subject to VAT."""
@@ -64,49 +66,3 @@ class InvoiceUpdateParams(TypedDict, total=False):
 
     zero_rated: bool
     """Whether the invoice has been zero-rated."""
-
-
-class Business(TypedDict, total=False):
-    address: Required[str]
-    """Your business trading address."""
-
-    name: Required[str]
-    """Your business trading name."""
-
-    vat_number: Required[str]
-    """Your business VAT number."""
-
-    bank_account: str
-
-    company_number: str
-    """Your business company number."""
-
-    email: str
-
-    logo: str
-    """URL to your company logo (HTTPS only, .svg/.jpg/.png).
-
-    Recommended 240px by 60px.
-    """
-
-    phone: str
-
-    website: str
-
-
-class Customer(TypedDict, total=False):
-    name: Required[str]
-    """The customer's trading name."""
-
-    address: str
-
-    company_number: str
-
-    country_code: str
-
-    email: str
-
-    logo: str
-    """URL to the customer logo (HTTPS only, .jpg/.png)."""
-
-    vat_number: str

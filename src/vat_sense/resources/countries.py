@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any, cast
-
 import httpx
 
 from ..types import country_list_params, country_list_provinces_params
@@ -79,27 +77,22 @@ class CountriesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return cast(
-            CountryListResponse,
-            self._get(
-                "/countries",
-                options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=maybe_transform(
-                        {
-                            "country_code": country_code,
-                            "ip_address": ip_address,
-                        },
-                        country_list_params.CountryListParams,
-                    ),
+        return self._get(
+            "/countries",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "country_code": country_code,
+                        "ip_address": ip_address,
+                    },
+                    country_list_params.CountryListParams,
                 ),
-                cast_to=cast(
-                    Any, CountryListResponse
-                ),  # Union types cannot be passed in as arguments in the type system
             ),
+            cast_to=CountryListResponse,
         )
 
     def list_provinces(
@@ -197,27 +190,22 @@ class AsyncCountriesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return cast(
-            CountryListResponse,
-            await self._get(
-                "/countries",
-                options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=await async_maybe_transform(
-                        {
-                            "country_code": country_code,
-                            "ip_address": ip_address,
-                        },
-                        country_list_params.CountryListParams,
-                    ),
+        return await self._get(
+            "/countries",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "country_code": country_code,
+                        "ip_address": ip_address,
+                    },
+                    country_list_params.CountryListParams,
                 ),
-                cast_to=cast(
-                    Any, CountryListResponse
-                ),  # Union types cannot be passed in as arguments in the type system
             ),
+            cast_to=CountryListResponse,
         )
 
     async def list_provinces(

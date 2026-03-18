@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Union, cast
+from typing import Union
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -90,27 +90,24 @@ class RatesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return cast(
-            RateListResponse,
-            self._get(
-                "/rates",
-                options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=maybe_transform(
-                        {
-                            "country_code": country_code,
-                            "eu": eu,
-                            "ip_address": ip_address,
-                            "period": period,
-                        },
-                        rate_list_params.RateListParams,
-                    ),
+        return self._get(
+            "/rates",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "country_code": country_code,
+                        "eu": eu,
+                        "ip_address": ip_address,
+                        "period": period,
+                    },
+                    rate_list_params.RateListParams,
                 ),
-                cast_to=cast(Any, RateListResponse),  # Union types cannot be passed in as arguments in the type system
             ),
+            cast_to=RateListResponse,
         )
 
     def calculate_price(
@@ -410,27 +407,24 @@ class AsyncRatesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return cast(
-            RateListResponse,
-            await self._get(
-                "/rates",
-                options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=await async_maybe_transform(
-                        {
-                            "country_code": country_code,
-                            "eu": eu,
-                            "ip_address": ip_address,
-                            "period": period,
-                        },
-                        rate_list_params.RateListParams,
-                    ),
+        return await self._get(
+            "/rates",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "country_code": country_code,
+                        "eu": eu,
+                        "ip_address": ip_address,
+                        "period": period,
+                    },
+                    rate_list_params.RateListParams,
                 ),
-                cast_to=cast(Any, RateListResponse),  # Union types cannot be passed in as arguments in the type system
             ),
+            cast_to=RateListResponse,
         )
 
     async def calculate_price(
