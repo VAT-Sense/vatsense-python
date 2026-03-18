@@ -8,8 +8,11 @@ __all__ = ["CurrencyCalculateVatPriceParams"]
 
 
 class CurrencyCalculateVatPriceParams(TypedDict, total=False):
-    price: Required[float]
-    """The price to calculate on. Must be a decimal with 2 decimal places."""
+    price: Required[str]
+    """The price to calculate on.
+
+    Must be a string with exactly 2 decimal places (e.g. "30.00", "59.95").
+    """
 
     tax_type: Required[Literal["incl", "excl"]]
     """Whether the provided price is inclusive or exclusive of VAT."""

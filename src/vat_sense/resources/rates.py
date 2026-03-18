@@ -113,7 +113,7 @@ class RatesResource(SyncAPIResource):
     def calculate_price(
         self,
         *,
-        price: float,
+        price: str,
         tax_type: Literal["incl", "excl"],
         country_code: str | Omit = omit,
         eu: bool | Omit = omit,
@@ -133,7 +133,7 @@ class RatesResource(SyncAPIResource):
         Requires both a location (country_code or ip_address) and a price to calculate.
 
         Args:
-          price: The price to calculate on. Must be a decimal with 2 decimal places (e.g.
+          price: The price to calculate on. Must be a string with exactly 2 decimal places (e.g.
               "30.00", "59.95").
 
           tax_type: Whether the provided price is inclusive or exclusive of VAT.
@@ -430,7 +430,7 @@ class AsyncRatesResource(AsyncAPIResource):
     async def calculate_price(
         self,
         *,
-        price: float,
+        price: str,
         tax_type: Literal["incl", "excl"],
         country_code: str | Omit = omit,
         eu: bool | Omit = omit,
@@ -450,7 +450,7 @@ class AsyncRatesResource(AsyncAPIResource):
         Requires both a location (country_code or ip_address) and a price to calculate.
 
         Args:
-          price: The price to calculate on. Must be a decimal with 2 decimal places (e.g.
+          price: The price to calculate on. Must be a string with exactly 2 decimal places (e.g.
               "30.00", "59.95").
 
           tax_type: Whether the provided price is inclusive or exclusive of VAT.

@@ -66,7 +66,7 @@ class TestRates:
     @parametrize
     def test_method_calculate_price(self, client: VatSense) -> None:
         rate = client.rates.calculate_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
         )
         assert_matches_type(RateCalculatePriceResponse, rate, path=["response"])
@@ -75,7 +75,7 @@ class TestRates:
     @parametrize
     def test_method_calculate_price_with_all_params(self, client: VatSense) -> None:
         rate = client.rates.calculate_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
             country_code="GB",
             eu=True,
@@ -89,7 +89,7 @@ class TestRates:
     @parametrize
     def test_raw_response_calculate_price(self, client: VatSense) -> None:
         response = client.rates.with_raw_response.calculate_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
         )
 
@@ -102,7 +102,7 @@ class TestRates:
     @parametrize
     def test_streaming_response_calculate_price(self, client: VatSense) -> None:
         with client.rates.with_streaming_response.calculate_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
         ) as response:
             assert not response.is_closed
@@ -272,7 +272,7 @@ class TestAsyncRates:
     @parametrize
     async def test_method_calculate_price(self, async_client: AsyncVatSense) -> None:
         rate = await async_client.rates.calculate_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
         )
         assert_matches_type(RateCalculatePriceResponse, rate, path=["response"])
@@ -281,7 +281,7 @@ class TestAsyncRates:
     @parametrize
     async def test_method_calculate_price_with_all_params(self, async_client: AsyncVatSense) -> None:
         rate = await async_client.rates.calculate_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
             country_code="GB",
             eu=True,
@@ -295,7 +295,7 @@ class TestAsyncRates:
     @parametrize
     async def test_raw_response_calculate_price(self, async_client: AsyncVatSense) -> None:
         response = await async_client.rates.with_raw_response.calculate_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
         )
 
@@ -308,7 +308,7 @@ class TestAsyncRates:
     @parametrize
     async def test_streaming_response_calculate_price(self, async_client: AsyncVatSense) -> None:
         async with async_client.rates.with_streaming_response.calculate_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
         ) as response:
             assert not response.is_closed
