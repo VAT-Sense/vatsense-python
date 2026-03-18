@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.2 (2026-03-18)
+
+Full Changelog: [v0.2.1...v0.2.2](https://github.com/VAT-Sense/vatsense-python/compare/v0.2.1...v0.2.2)
+
+### Chores
+
+* update SDK settings ([8ee6952](https://github.com/VAT-Sense/vatsense-python/commit/8ee6952ae40fc24165317e057ccc19f9a92db82c))
+* update SDK settings ([141680d](https://github.com/VAT-Sense/vatsense-python/commit/141680d92d4f5f1cc6c016c257f80f46b1a4f822))
+* update SDK settings ([d35b17e](https://github.com/VAT-Sense/vatsense-python/commit/d35b17ecaac464c24b877e72f65eaef6fd9343bb))
+
 ## 0.2.1 (2026-03-18)
 
 Full Changelog: [v0.2.0...v0.2.1](https://github.com/VAT-Sense/vatsense-python/compare/v0.2.0...v0.2.1)
