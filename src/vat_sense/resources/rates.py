@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Union, cast
+from typing import Union
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -37,7 +37,7 @@ class RatesResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vat-sense-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/VAT-Sense/vatsense-python#accessing-raw-response-data-eg-headers
         """
         return RatesResourceWithRawResponse(self)
 
@@ -46,7 +46,7 @@ class RatesResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vat-sense-python#with_streaming_response
+        For more information, see https://www.github.com/VAT-Sense/vatsense-python#with_streaming_response
         """
         return RatesResourceWithStreamingResponse(self)
 
@@ -90,27 +90,24 @@ class RatesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return cast(
-            RateListResponse,
-            self._get(
-                "/rates",
-                options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=maybe_transform(
-                        {
-                            "country_code": country_code,
-                            "eu": eu,
-                            "ip_address": ip_address,
-                            "period": period,
-                        },
-                        rate_list_params.RateListParams,
-                    ),
+        return self._get(
+            "/rates",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "country_code": country_code,
+                        "eu": eu,
+                        "ip_address": ip_address,
+                        "period": period,
+                    },
+                    rate_list_params.RateListParams,
                 ),
-                cast_to=cast(Any, RateListResponse),  # Union types cannot be passed in as arguments in the type system
             ),
+            cast_to=RateListResponse,
         )
 
     def calculate_price(
@@ -357,7 +354,7 @@ class AsyncRatesResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vat-sense-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/VAT-Sense/vatsense-python#accessing-raw-response-data-eg-headers
         """
         return AsyncRatesResourceWithRawResponse(self)
 
@@ -366,7 +363,7 @@ class AsyncRatesResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vat-sense-python#with_streaming_response
+        For more information, see https://www.github.com/VAT-Sense/vatsense-python#with_streaming_response
         """
         return AsyncRatesResourceWithStreamingResponse(self)
 
@@ -410,27 +407,24 @@ class AsyncRatesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return cast(
-            RateListResponse,
-            await self._get(
-                "/rates",
-                options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=await async_maybe_transform(
-                        {
-                            "country_code": country_code,
-                            "eu": eu,
-                            "ip_address": ip_address,
-                            "period": period,
-                        },
-                        rate_list_params.RateListParams,
-                    ),
+        return await self._get(
+            "/rates",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "country_code": country_code,
+                        "eu": eu,
+                        "ip_address": ip_address,
+                        "period": period,
+                    },
+                    rate_list_params.RateListParams,
                 ),
-                cast_to=cast(Any, RateListResponse),  # Union types cannot be passed in as arguments in the type system
             ),
+            cast_to=RateListResponse,
         )
 
     async def calculate_price(

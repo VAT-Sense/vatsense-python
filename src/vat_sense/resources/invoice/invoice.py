@@ -15,7 +15,11 @@ from .item import (
     ItemResourceWithStreamingResponse,
     AsyncItemResourceWithStreamingResponse,
 )
-from ...types import invoice_list_params, invoice_create_params, invoice_update_params
+from ...types import (
+    invoice_list_params,
+    invoice_create_params,
+    invoice_update_params,
+)
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -30,6 +34,8 @@ from ..._base_client import make_request_options
 from ...types.invoice_response import InvoiceResponse
 from ...types.invoice_list_response import InvoiceListResponse
 from ...types.invoice_delete_response import InvoiceDeleteResponse
+from ...types.invoice_business_input_param import InvoiceBusinessInputParam
+from ...types.invoice_customer_input_param import InvoiceCustomerInputParam
 from ...types.invoice_conversion_input_param import InvoiceConversionInputParam
 from ...types.invoice.invoice_item_input_param import InvoiceItemInputParam
 
@@ -50,7 +56,7 @@ class InvoiceResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vat-sense-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/VAT-Sense/vatsense-python#accessing-raw-response-data-eg-headers
         """
         return InvoiceResourceWithRawResponse(self)
 
@@ -59,20 +65,20 @@ class InvoiceResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vat-sense-python#with_streaming_response
+        For more information, see https://www.github.com/VAT-Sense/vatsense-python#with_streaming_response
         """
         return InvoiceResourceWithStreamingResponse(self)
 
     def create(
         self,
         *,
-        business: invoice_create_params.Business,
+        business: InvoiceBusinessInputParam,
         currency_code: str,
         date: str,
         items: Iterable[InvoiceItemInputParam],
         tax_point: str,
         conversion: InvoiceConversionInputParam | Omit = omit,
-        customer: invoice_create_params.Customer | Omit = omit,
+        customer: InvoiceCustomerInputParam | Omit = omit,
         has_vat: bool | Omit = omit,
         invoice_number: str | Omit = omit,
         is_copy: bool | Omit = omit,
@@ -201,13 +207,13 @@ class InvoiceResource(SyncAPIResource):
         self,
         invoice_id: str,
         *,
-        business: invoice_update_params.Business,
+        business: InvoiceBusinessInputParam,
         currency_code: str,
         date: str,
         items: Iterable[InvoiceItemInputParam],
         tax_point: str,
         conversion: InvoiceConversionInputParam | Omit = omit,
-        customer: invoice_update_params.Customer | Omit = omit,
+        customer: InvoiceCustomerInputParam | Omit = omit,
         has_vat: bool | Omit = omit,
         invoice_number: str | Omit = omit,
         is_copy: bool | Omit = omit,
@@ -396,7 +402,7 @@ class AsyncInvoiceResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vat-sense-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/VAT-Sense/vatsense-python#accessing-raw-response-data-eg-headers
         """
         return AsyncInvoiceResourceWithRawResponse(self)
 
@@ -405,20 +411,20 @@ class AsyncInvoiceResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vat-sense-python#with_streaming_response
+        For more information, see https://www.github.com/VAT-Sense/vatsense-python#with_streaming_response
         """
         return AsyncInvoiceResourceWithStreamingResponse(self)
 
     async def create(
         self,
         *,
-        business: invoice_create_params.Business,
+        business: InvoiceBusinessInputParam,
         currency_code: str,
         date: str,
         items: Iterable[InvoiceItemInputParam],
         tax_point: str,
         conversion: InvoiceConversionInputParam | Omit = omit,
-        customer: invoice_create_params.Customer | Omit = omit,
+        customer: InvoiceCustomerInputParam | Omit = omit,
         has_vat: bool | Omit = omit,
         invoice_number: str | Omit = omit,
         is_copy: bool | Omit = omit,
@@ -547,13 +553,13 @@ class AsyncInvoiceResource(AsyncAPIResource):
         self,
         invoice_id: str,
         *,
-        business: invoice_update_params.Business,
+        business: InvoiceBusinessInputParam,
         currency_code: str,
         date: str,
         items: Iterable[InvoiceItemInputParam],
         tax_point: str,
         conversion: InvoiceConversionInputParam | Omit = omit,
-        customer: invoice_update_params.Customer | Omit = omit,
+        customer: InvoiceCustomerInputParam | Omit = omit,
         has_vat: bool | Omit = omit,
         invoice_number: str | Omit = omit,
         is_copy: bool | Omit = omit,
