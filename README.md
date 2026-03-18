@@ -1,7 +1,7 @@
 # Vat Sense Python API library
 
 <!-- prettier-ignore -->
-[![PyPI version](https://img.shields.io/pypi/v/vat_sense.svg?label=pypi%20(stable))](https://pypi.org/project/vat_sense/)
+[![PyPI version](https://img.shields.io/pypi/v/vatsense.svg?label=pypi%20(stable))](https://pypi.org/project/vatsense/)
 
 The Vat Sense Python library provides convenient access to the Vat Sense REST API from any Python 3.9+
 application. The library includes type definitions for all request params and response fields,
@@ -16,12 +16,9 @@ The REST API documentation can be found on [vatsense.com](https://vatsense.com).
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/VAT-Sense/vatsense-python.git
+# install from PyPI
+pip install vatsense
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install vat_sense`
 
 ## Usage
 
@@ -75,8 +72,8 @@ By default, the async client uses `httpx` for HTTP requests. However, for improv
 You can enable this by installing `aiohttp`:
 
 ```sh
-# install from the production repo
-pip install 'vat_sense[aiohttp] @ git+ssh://git@github.com/VAT-Sense/vatsense-python.git'
+# install from PyPI
+pip install vatsense[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
