@@ -8,10 +8,10 @@ __all__ = ["RateCalculatePriceParams"]
 
 
 class RateCalculatePriceParams(TypedDict, total=False):
-    price: Required[float]
+    price: Required[str]
     """The price to calculate on.
 
-    Must be a decimal with 2 decimal places (e.g. "30.00", "59.95").
+    Must be a string with exactly 2 decimal places (e.g. "30.00", "59.95").
     """
 
     tax_type: Required[Literal["incl", "excl"]]

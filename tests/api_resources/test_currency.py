@@ -62,7 +62,7 @@ class TestCurrency:
     @parametrize
     def test_method_calculate_vat_price(self, client: VatSense) -> None:
         currency = client.currency.calculate_vat_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
             vat_rate=5,
         )
@@ -72,7 +72,7 @@ class TestCurrency:
     @parametrize
     def test_raw_response_calculate_vat_price(self, client: VatSense) -> None:
         response = client.currency.with_raw_response.calculate_vat_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
             vat_rate=5,
         )
@@ -86,7 +86,7 @@ class TestCurrency:
     @parametrize
     def test_streaming_response_calculate_vat_price(self, client: VatSense) -> None:
         with client.currency.with_streaming_response.calculate_vat_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
             vat_rate=5,
         ) as response:
@@ -102,7 +102,7 @@ class TestCurrency:
     @parametrize
     def test_method_convert(self, client: VatSense) -> None:
         currency = client.currency.convert(
-            amount=39.99,
+            amount="39.99",
             from_="USD",
             to="GBP",
         )
@@ -112,7 +112,7 @@ class TestCurrency:
     @parametrize
     def test_raw_response_convert(self, client: VatSense) -> None:
         response = client.currency.with_raw_response.convert(
-            amount=39.99,
+            amount="39.99",
             from_="USD",
             to="GBP",
         )
@@ -126,7 +126,7 @@ class TestCurrency:
     @parametrize
     def test_streaming_response_convert(self, client: VatSense) -> None:
         with client.currency.with_streaming_response.convert(
-            amount=39.99,
+            amount="39.99",
             from_="USD",
             to="GBP",
         ) as response:
@@ -185,7 +185,7 @@ class TestAsyncCurrency:
     @parametrize
     async def test_method_calculate_vat_price(self, async_client: AsyncVatSense) -> None:
         currency = await async_client.currency.calculate_vat_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
             vat_rate=5,
         )
@@ -195,7 +195,7 @@ class TestAsyncCurrency:
     @parametrize
     async def test_raw_response_calculate_vat_price(self, async_client: AsyncVatSense) -> None:
         response = await async_client.currency.with_raw_response.calculate_vat_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
             vat_rate=5,
         )
@@ -209,7 +209,7 @@ class TestAsyncCurrency:
     @parametrize
     async def test_streaming_response_calculate_vat_price(self, async_client: AsyncVatSense) -> None:
         async with async_client.currency.with_streaming_response.calculate_vat_price(
-            price=20,
+            price="20.00",
             tax_type="excl",
             vat_rate=5,
         ) as response:
@@ -225,7 +225,7 @@ class TestAsyncCurrency:
     @parametrize
     async def test_method_convert(self, async_client: AsyncVatSense) -> None:
         currency = await async_client.currency.convert(
-            amount=39.99,
+            amount="39.99",
             from_="USD",
             to="GBP",
         )
@@ -235,7 +235,7 @@ class TestAsyncCurrency:
     @parametrize
     async def test_raw_response_convert(self, async_client: AsyncVatSense) -> None:
         response = await async_client.currency.with_raw_response.convert(
-            amount=39.99,
+            amount="39.99",
             from_="USD",
             to="GBP",
         )
@@ -249,7 +249,7 @@ class TestAsyncCurrency:
     @parametrize
     async def test_streaming_response_convert(self, async_client: AsyncVatSense) -> None:
         async with async_client.currency.with_streaming_response.convert(
-            amount=39.99,
+            amount="39.99",
             from_="USD",
             to="GBP",
         ) as response:

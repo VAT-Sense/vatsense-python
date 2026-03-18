@@ -10,8 +10,11 @@ __all__ = ["CurrencyConvertParams"]
 
 
 class CurrencyConvertParams(TypedDict, total=False):
-    amount: Required[float]
-    """The amount to convert. Must be a decimal with 2 decimal places (e.g. "39.99")."""
+    amount: Required[str]
+    """The amount to convert.
+
+    Must be a string with exactly 2 decimal places (e.g. "39.99").
+    """
 
     from_: Required[Annotated[str, PropertyInfo(alias="from")]]
     """The 3-character source currency code (e.g. "USD", "CAD")."""

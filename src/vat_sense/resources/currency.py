@@ -100,7 +100,7 @@ class CurrencyResource(SyncAPIResource):
     def calculate_vat_price(
         self,
         *,
-        price: float,
+        price: str,
         tax_type: Literal["incl", "excl"],
         vat_rate: float,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -115,7 +115,8 @@ class CurrencyResource(SyncAPIResource):
         This is a standalone calculation that does not look up rates by country.
 
         Args:
-          price: The price to calculate on. Must be a decimal with 2 decimal places.
+          price: The price to calculate on. Must be a string with exactly 2 decimal places (e.g.
+              "30.00", "59.95").
 
           tax_type: Whether the provided price is inclusive or exclusive of VAT.
 
@@ -151,7 +152,7 @@ class CurrencyResource(SyncAPIResource):
     def convert(
         self,
         *,
-        amount: float,
+        amount: str,
         from_: str,
         to: Literal["GBP", "EUR"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -169,7 +170,8 @@ class CurrencyResource(SyncAPIResource):
         the European Central Bank (updated around 16:00 CET on working days).
 
         Args:
-          amount: The amount to convert. Must be a decimal with 2 decimal places (e.g. "39.99").
+          amount: The amount to convert. Must be a string with exactly 2 decimal places (e.g.
+              "39.99").
 
           from_: The 3-character source currency code (e.g. "USD", "CAD").
 
@@ -278,7 +280,7 @@ class AsyncCurrencyResource(AsyncAPIResource):
     async def calculate_vat_price(
         self,
         *,
-        price: float,
+        price: str,
         tax_type: Literal["incl", "excl"],
         vat_rate: float,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -293,7 +295,8 @@ class AsyncCurrencyResource(AsyncAPIResource):
         This is a standalone calculation that does not look up rates by country.
 
         Args:
-          price: The price to calculate on. Must be a decimal with 2 decimal places.
+          price: The price to calculate on. Must be a string with exactly 2 decimal places (e.g.
+              "30.00", "59.95").
 
           tax_type: Whether the provided price is inclusive or exclusive of VAT.
 
@@ -329,7 +332,7 @@ class AsyncCurrencyResource(AsyncAPIResource):
     async def convert(
         self,
         *,
-        amount: float,
+        amount: str,
         from_: str,
         to: Literal["GBP", "EUR"],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -347,7 +350,8 @@ class AsyncCurrencyResource(AsyncAPIResource):
         the European Central Bank (updated around 16:00 CET on working days).
 
         Args:
-          amount: The amount to convert. Must be a decimal with 2 decimal places (e.g. "39.99").
+          amount: The amount to convert. Must be a string with exactly 2 decimal places (e.g.
+              "39.99").
 
           from_: The 3-character source currency code (e.g. "USD", "CAD").
 
