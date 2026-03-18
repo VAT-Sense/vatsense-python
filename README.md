@@ -34,6 +34,7 @@ client = VatSense(
 )
 
 rates = client.rates.list()
+print(rates.code)
 ```
 
 While you can provide a `username` keyword argument,
@@ -58,6 +59,7 @@ client = AsyncVatSense(
 
 async def main() -> None:
     rates = await client.rates.list()
+    print(rates.code)
 
 
 asyncio.run(main())
@@ -92,6 +94,7 @@ async def main() -> None:
         http_client=DefaultAioHttpClient(),
     ) as client:
         rates = await client.rates.list()
+        print(rates.code)
 
 
 asyncio.run(main())
@@ -263,7 +266,7 @@ response = client.rates.with_raw_response.list()
 print(response.headers.get('X-My-Header'))
 
 rate = response.parse()  # get the object that `rates.list()` would have returned
-print(rate)
+print(rate.code)
 ```
 
 These methods return an [`APIResponse`](https://github.com/VAT-Sense/vatsense-python/tree/main/src/vat_sense/_response.py) object.

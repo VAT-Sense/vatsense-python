@@ -12,6 +12,7 @@ from .invoice_response import InvoiceResponse as InvoiceResponse
 from .rate_find_params import RateFindParams as RateFindParams
 from .rate_list_params import RateListParams as RateListParams
 from .rate_list_response import RateListResponse as RateListResponse
+from .rate_with_tax_rate import RateWithTaxRate as RateWithTaxRate
 from .country_list_params import CountryListParams as CountryListParams
 from .invoice_list_params import InvoiceListParams as InvoiceListParams
 from .rate_details_params import RateDetailsParams as RateDetailsParams
@@ -30,6 +31,8 @@ from .invoice_conversion_input import InvoiceConversionInput as InvoiceConversio
 from .rate_list_types_response import RateListTypesResponse as RateListTypesResponse
 from .currency_convert_response import CurrencyConvertResponse as CurrencyConvertResponse
 from .rate_calculate_price_params import RateCalculatePriceParams as RateCalculatePriceParams
+from .invoice_business_input_param import InvoiceBusinessInputParam as InvoiceBusinessInputParam
+from .invoice_customer_input_param import InvoiceCustomerInputParam as InvoiceCustomerInputParam
 from .country_list_provinces_params import CountryListProvincesParams as CountryListProvincesParams
 from .rate_calculate_price_response import RateCalculatePriceResponse as RateCalculatePriceResponse
 from .sandbox_generate_key_response import SandboxGenerateKeyResponse as SandboxGenerateKeyResponse
