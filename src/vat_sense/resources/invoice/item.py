@@ -7,7 +7,7 @@ from typing import Iterable
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -76,7 +76,7 @@ class ItemResource(SyncAPIResource):
         if not item_id:
             raise ValueError(f"Expected a non-empty value for `item_id` but received {item_id!r}")
         return self._get(
-            f"/invoice/{invoice_id}/item/{item_id}",
+            path_template("/invoice/{invoice_id}/item/{item_id}", invoice_id=invoice_id, item_id=item_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -127,7 +127,7 @@ class ItemResource(SyncAPIResource):
         if not item_id:
             raise ValueError(f"Expected a non-empty value for `item_id` but received {item_id!r}")
         return self._patch(
-            f"/invoice/{invoice_id}/item/{item_id}",
+            path_template("/invoice/{invoice_id}/item/{item_id}", invoice_id=invoice_id, item_id=item_id),
             body=maybe_transform(
                 {
                     "item": item,
@@ -173,7 +173,7 @@ class ItemResource(SyncAPIResource):
         if not item_id:
             raise ValueError(f"Expected a non-empty value for `item_id` but received {item_id!r}")
         return self._delete(
-            f"/invoice/{invoice_id}/item/{item_id}",
+            path_template("/invoice/{invoice_id}/item/{item_id}", invoice_id=invoice_id, item_id=item_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -207,7 +207,7 @@ class ItemResource(SyncAPIResource):
         if not invoice_id:
             raise ValueError(f"Expected a non-empty value for `invoice_id` but received {invoice_id!r}")
         return self._post(
-            f"/invoice/{invoice_id}/item",
+            path_template("/invoice/{invoice_id}/item", invoice_id=invoice_id),
             body=maybe_transform({"items": items}, item_add_params.ItemAddParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -267,7 +267,7 @@ class AsyncItemResource(AsyncAPIResource):
         if not item_id:
             raise ValueError(f"Expected a non-empty value for `item_id` but received {item_id!r}")
         return await self._get(
-            f"/invoice/{invoice_id}/item/{item_id}",
+            path_template("/invoice/{invoice_id}/item/{item_id}", invoice_id=invoice_id, item_id=item_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -318,7 +318,7 @@ class AsyncItemResource(AsyncAPIResource):
         if not item_id:
             raise ValueError(f"Expected a non-empty value for `item_id` but received {item_id!r}")
         return await self._patch(
-            f"/invoice/{invoice_id}/item/{item_id}",
+            path_template("/invoice/{invoice_id}/item/{item_id}", invoice_id=invoice_id, item_id=item_id),
             body=await async_maybe_transform(
                 {
                     "item": item,
@@ -364,7 +364,7 @@ class AsyncItemResource(AsyncAPIResource):
         if not item_id:
             raise ValueError(f"Expected a non-empty value for `item_id` but received {item_id!r}")
         return await self._delete(
-            f"/invoice/{invoice_id}/item/{item_id}",
+            path_template("/invoice/{invoice_id}/item/{item_id}", invoice_id=invoice_id, item_id=item_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -398,7 +398,7 @@ class AsyncItemResource(AsyncAPIResource):
         if not invoice_id:
             raise ValueError(f"Expected a non-empty value for `invoice_id` but received {invoice_id!r}")
         return await self._post(
-            f"/invoice/{invoice_id}/item",
+            path_template("/invoice/{invoice_id}/item", invoice_id=invoice_id),
             body=await async_maybe_transform({"items": items}, item_add_params.ItemAddParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
