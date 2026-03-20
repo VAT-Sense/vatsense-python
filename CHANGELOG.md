@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.3 (2026-03-20)
+
+Full Changelog: [v0.2.2...v0.2.3](https://github.com/VAT-Sense/vatsense-python/compare/v0.2.2...v0.2.3)
+
+### Bug Fixes
+
+* sanitize endpoint path params ([379abb6](https://github.com/VAT-Sense/vatsense-python/commit/379abb6e82f3993cc93fd077223977017ec27a96))
+
 ## 0.2.2 (2026-03-18)
 
 Full Changelog: [v0.2.1...v0.2.2](https://github.com/VAT-Sense/vatsense-python/compare/v0.2.1...v0.2.2)
