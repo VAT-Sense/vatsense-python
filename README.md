@@ -1,396 +1,215 @@
-# Vat Sense Python API library
+# VAT Sense Python SDK
 
-<!-- prettier-ignore -->
 [![PyPI version](https://img.shields.io/pypi/v/vatsense.svg?label=pypi%20(stable))](https://pypi.org/project/vatsense/)
 
-The Vat Sense Python library provides convenient access to the Vat Sense REST API from any Python 3.9+
-application. The library includes type definitions for all request params and response fields,
-and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
+The official Python library for the [VAT Sense](https://vatsense.com) REST API. Validate VAT/EORI numbers, look up VAT/GST rates, calculate prices, convert currencies, and generate VAT-compliant invoices.
 
-It is generated with [Stainless](https://www.stainless.com/).
-
-## Documentation
-
-The REST API documentation can be found on [vatsense.com](https://vatsense.com). The full API of this library can be found in [api.md](api.md).
+Includes type definitions for all request params and response fields, and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
 ## Installation
 
 ```sh
-# install from PyPI
 pip install vatsense
 ```
 
-## Usage
+Requires Python 3.9+.
 
-The full API of this library can be found in [api.md](api.md).
+## Quick start
+
+Create a client using your API key from the [VAT Sense dashboard](https://vatsense.com/dashboard). The API uses HTTP Basic Auth with `user` as the username and your API key as the password.
 
 ```python
-import os
 from vat_sense import VatSense
 
 client = VatSense(
-    username=os.environ.get("VAT_SENSE_USERNAME"),  # This is the default and can be omitted
-    password=os.environ.get("VAT_SENSE_PASSWORD"),  # This is the default and can be omitted
+    username="user",
+    password="your_api_key",
 )
-
-rates = client.rates.list()
-print(rates.code)
 ```
 
-While you can provide a `username` keyword argument,
-we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `VAT_SENSE_USERNAME="My Username"` to your `.env` file
-so that your Username is not stored in source control.
+You can also set the `VAT_SENSE_USERNAME` and `VAT_SENSE_PASSWORD` environment variables and the client will pick them up automatically.
 
-## Async usage
-
-Simply import `AsyncVatSense` instead of `VatSense` and use `await` with each API call:
+### Validate a VAT number
 
 ```python
-import os
+response = client.validate.check(vat_number="GB288305674")
+
+if response.data.valid:
+    print(response.data.company.company_name)     # "BRITISH BROADCASTING CORPORATION"
+    print(response.data.company.company_address)
+    print(response.data.company.country_code)      # "GB"
+```
+
+VAT validation works for the UK, EU, Australia, Norway, Switzerland, South Africa, and Brazil.
+
+### Validate an EORI number
+
+```python
+response = client.validate.check(eori_number="GB123456789000")
+
+if response.data.valid:
+    print(response.data.company.company_name)
+```
+
+EORI validation is available for UK and EU numbers only.
+
+### Get a consultation number
+
+If you need an official consultation number from VIES (EU) or HMRC (UK), provide your own VAT number as the requester:
+
+```python
+response = client.validate.check(
+    vat_number="FR12345678901",
+    requester_vat_number="FR98765432101",
+)
+
+print(response.data.consultation_number)
+```
+
+> **Note:** GB requester numbers only work for GB validations, and EU requester numbers only work for EU validations. Cross-region requests are not supported.
+
+### Find the VAT rate for a country
+
+```python
+rate = client.rates.find(country_code="DE")
+
+print(rate.data.country_name)       # "Germany"
+print(rate.data.tax_rate.rate)      # 19.0
+print(rate.data.tax_rate.class_)    # "standard"
+```
+
+### Find a rate for a specific product type
+
+```python
+rate = client.rates.find(country_code="DE", type="ebooks")
+
+print(rate.data.tax_rate.rate)      # 7.0
+print(rate.data.tax_rate.class_)    # "reduced"
+```
+
+### Find a rate by IP address
+
+Useful for determining the correct rate based on your customer's location:
+
+```python
+rate = client.rates.find(ip_address="185.86.151.11")
+
+print(rate.data.country_code)       # "GB"
+print(rate.data.tax_rate.rate)      # 20.0
+```
+
+### Calculate a VAT-inclusive price
+
+```python
+result = client.rates.calculate_price(
+    price="100.00",
+    tax_type="excl",
+    country_code="FR",
+)
+
+print(result.data.vat_price.price_incl_vat)  # Price including VAT
+print(result.data.vat_price.price_excl_vat)  # Price excluding VAT
+print(result.data.vat_price.vat_rate)        # VAT rate applied
+print(result.data.vat_price.vat)             # VAT amount
+```
+
+### List all VAT rates
+
+```python
+rates = client.rates.list()
+
+for rate in rates.data:
+    print(f"{rate.country_code}: {rate.country_name}")
+
+# Filter to EU countries only
+eu_rates = client.rates.list(eu=True)
+```
+
+### Async usage
+
+An async client is also available:
+
+```python
 import asyncio
 from vat_sense import AsyncVatSense
 
 client = AsyncVatSense(
-    username=os.environ.get("VAT_SENSE_USERNAME"),  # This is the default and can be omitted
-    password=os.environ.get("VAT_SENSE_PASSWORD"),  # This is the default and can be omitted
+    username="user",
+    password="your_api_key",
 )
 
-
-async def main() -> None:
-    rates = await client.rates.list()
-    print(rates.code)
-
+async def main():
+    response = await client.validate.check(vat_number="GB288305674")
+    print(response.data.valid)
 
 asyncio.run(main())
-```
-
-Functionality between the synchronous and asynchronous clients is otherwise identical.
-
-### With aiohttp
-
-By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
-
-You can enable this by installing `aiohttp`:
-
-```sh
-# install from PyPI
-pip install vatsense[aiohttp]
-```
-
-Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
-
-```python
-import os
-import asyncio
-from vat_sense import DefaultAioHttpClient
-from vat_sense import AsyncVatSense
-
-
-async def main() -> None:
-    async with AsyncVatSense(
-        username=os.environ.get("VAT_SENSE_USERNAME"),  # This is the default and can be omitted
-        password=os.environ.get("VAT_SENSE_PASSWORD"),  # This is the default and can be omitted
-        http_client=DefaultAioHttpClient(),
-    ) as client:
-        rates = await client.rates.list()
-        print(rates.code)
-
-
-asyncio.run(main())
-```
-
-## Using types
-
-Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
-
-- Serializing back into JSON, `model.to_json()`
-- Converting to a dictionary, `model.to_dict()`
-
-Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
-
-## Nested params
-
-Nested parameters are dictionaries, typed using `TypedDict`, for example:
-
-```python
-from vat_sense import VatSense
-
-client = VatSense()
-
-invoice_response = client.invoice.create(
-    business={
-        "address": "123 Example Street\nLondon\nSW3 1GL\nUnited Kingdom",
-        "name": "VAT Sense",
-        "vat_number": "GB12345678",
-    },
-    currency_code="USD",
-    date="2018-06-03 14:02:00",
-    items=[
-        {
-            "item": "Standard payment plan",
-            "price_each": 19.99,
-            "quantity": 1,
-            "vat_rate": 20,
-        }
-    ],
-    tax_point="2018-06-03 14:02:00",
-)
-print(invoice_response.business)
 ```
 
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `vat_sense.APIConnectionError` is raised.
-
-When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `vat_sense.APIStatusError` is raised, containing `status_code` and `response` properties.
-
-All errors inherit from `vat_sense.APIError`.
+When the API returns an error, the library raises a typed exception:
 
 ```python
-import vat_sense
-from vat_sense import VatSense
+from vat_sense import VatSense, APIConnectionError, APIStatusError, RateLimitError
 
-client = VatSense()
+client = VatSense(username="user", password="your_api_key")
 
 try:
-    client.rates.list()
-except vat_sense.APIConnectionError as e:
-    print("The server could not be reached")
-    print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except vat_sense.RateLimitError as e:
-    print("A 429 status code was received; we should back off a bit.")
-except vat_sense.APIStatusError as e:
-    print("Another non-200-range status code was received")
+    response = client.validate.check(vat_number="GB288305674")
+except APIConnectionError:
+    # Network issue, could not reach the API
+    print("Connection failed")
+except RateLimitError:
+    # 429: Too many requests (300/min general limit, 3/sec for UK validation)
+    print("Rate limited, try again shortly")
+except APIStatusError as e:
+    # Covers all other HTTP errors
     print(e.status_code)
-    print(e.response)
+    print(e.message)
 ```
 
-Error codes are as follows:
+A `412` error means the upstream validation service (VIES, HMRC, etc.) is temporarily unavailable. These requests do not count against your usage quota.
 
 | Status Code | Error Type                 |
 | ----------- | -------------------------- |
 | 400         | `BadRequestError`          |
 | 401         | `AuthenticationError`      |
-| 403         | `PermissionDeniedError`    |
 | 404         | `NotFoundError`            |
-| 422         | `UnprocessableEntityError` |
+| 409         | `ConflictError`            |
 | 429         | `RateLimitError`           |
-| >=500       | `InternalServerError`      |
+| >= 500      | `InternalServerError`      |
 | N/A         | `APIConnectionError`       |
 
-### Retries
+## Retries
 
-Certain errors are automatically retried 2 times by default, with a short exponential backoff.
-Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
-429 Rate Limit, and >=500 Internal errors are all retried by default.
-
-You can use the `max_retries` option to configure or disable retry settings:
+Failed requests are automatically retried up to 2 times with exponential backoff. This includes connection errors, timeouts, 429, and 5xx responses.
 
 ```python
-from vat_sense import VatSense
+# Disable retries
+client = VatSense(username="user", password="your_api_key", max_retries=0)
 
-# Configure the default for all requests:
-client = VatSense(
-    # default is 2
-    max_retries=0,
-)
-
-# Or, configure per-request:
-client.with_options(max_retries=5).rates.list()
+# Or configure per request
+response = client.validate.check(vat_number="GB288305674", timeout=5.0)
 ```
 
-### Timeouts
+## Available services
 
-By default requests time out after 1 minute. You can configure this with a `timeout` option,
-which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
+| Service              | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `client.validate`    | Validate VAT and EORI numbers                   |
+| `client.rates`       | VAT/GST rate lookups, price calculations         |
+| `client.countries`   | Country data and province lookups                |
+| `client.currency`    | Exchange rates and currency conversion           |
+| `client.invoice`     | Create and manage VAT-compliant invoices         |
+| `client.usage`       | Check your API usage                             |
 
-```python
-from vat_sense import VatSense
+## Documentation
 
-# Configure the default for all requests:
-client = VatSense(
-    # 20 seconds (default is 1 minute)
-    timeout=20.0,
-)
-
-# More granular control:
-client = VatSense(
-    timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
-)
-
-# Override per-request:
-client.with_options(timeout=5.0).rates.list()
-```
-
-On timeout, an `APITimeoutError` is thrown.
-
-Note that requests that time out are [retried twice by default](#retries).
-
-## Advanced
-
-### Logging
-
-We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
-
-You can enable logging by setting the environment variable `VAT_SENSE_LOG` to `info`.
-
-```shell
-$ export VAT_SENSE_LOG=info
-```
-
-Or to `debug` for more verbose logging.
-
-### How to tell whether `None` means `null` or missing
-
-In an API response, a field may be explicitly `null`, or missing entirely; in either case, its value is `None` in this library. You can differentiate the two cases with `.model_fields_set`:
-
-```py
-if response.my_field is None:
-  if 'my_field' not in response.model_fields_set:
-    print('Got json like {}, without a "my_field" key present at all.')
-  else:
-    print('Got json like {"my_field": null}.')
-```
-
-### Accessing raw response data (e.g. headers)
-
-The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
-
-```py
-from vat_sense import VatSense
-
-client = VatSense()
-response = client.rates.with_raw_response.list()
-print(response.headers.get('X-My-Header'))
-
-rate = response.parse()  # get the object that `rates.list()` would have returned
-print(rate.code)
-```
-
-These methods return an [`APIResponse`](https://github.com/VAT-Sense/vatsense-python/tree/main/src/vat_sense/_response.py) object.
-
-The async client returns an [`AsyncAPIResponse`](https://github.com/VAT-Sense/vatsense-python/tree/main/src/vat_sense/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
-
-#### `.with_streaming_response`
-
-The above interface eagerly reads the full response body when you make the request, which may not always be what you want.
-
-To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
-
-```python
-with client.rates.with_streaming_response.list() as response:
-    print(response.headers.get("X-My-Header"))
-
-    for line in response.iter_lines():
-        print(line)
-```
-
-The context manager is required so that the response will reliably be closed.
-
-### Making custom/undocumented requests
-
-This library is typed for convenient access to the documented API.
-
-If you need to access undocumented endpoints, params, or response properties, the library can still be used.
-
-#### Undocumented endpoints
-
-To make requests to undocumented endpoints, you can make requests using `client.get`, `client.post`, and other
-http verbs. Options on the client will be respected (such as retries) when making this request.
-
-```py
-import httpx
-
-response = client.post(
-    "/foo",
-    cast_to=httpx.Response,
-    body={"my_param": True},
-)
-
-print(response.headers.get("x-foo"))
-```
-
-#### Undocumented request params
-
-If you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` request
-options.
-
-#### Undocumented response properties
-
-To access undocumented response properties, you can access the extra fields like `response.unknown_prop`. You
-can also get all the extra fields on the Pydantic model as a dict with
-[`response.model_extra`](https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel.model_extra).
-
-### Configuring the HTTP client
-
-You can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:
-
-- Support for [proxies](https://www.python-httpx.org/advanced/proxies/)
-- Custom [transports](https://www.python-httpx.org/advanced/transports/)
-- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
-
-```python
-import httpx
-from vat_sense import VatSense, DefaultHttpxClient
-
-client = VatSense(
-    # Or use the `VAT_SENSE_BASE_URL` env var
-    base_url="http://my.test.server.example.com:8083",
-    http_client=DefaultHttpxClient(
-        proxy="http://my.test.proxy.example.com",
-        transport=httpx.HTTPTransport(local_address="0.0.0.0"),
-    ),
-)
-```
-
-You can also customize the client on a per-request basis by using `with_options()`:
-
-```python
-client.with_options(http_client=DefaultHttpxClient(...))
-```
-
-### Managing HTTP resources
-
-By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
-
-```py
-from vat_sense import VatSense
-
-with VatSense() as client:
-  # make requests here
-  ...
-
-# HTTP client is now closed
-```
+Full API documentation is available at [vatsense.com/documentation](https://vatsense.com/documentation).
 
 ## Versioning
 
-This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
-
-1. Changes that only affect static types, without breaking runtime behavior.
-2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
-3. Changes that we do not expect to impact the vast majority of users in practice.
-
-We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
-
-We are keen for your feedback; please open an [issue](https://www.github.com/VAT-Sense/vatsense-python/issues) with questions, bugs, or suggestions.
-
-### Determining the installed version
-
-If you've upgraded to the latest version but aren't seeing any new features you were expecting then your python environment is likely still using an older version.
-
-You can determine the version that is being used at runtime with:
-
-```py
-import vat_sense
-print(vat_sense.__version__)
-```
-
-## Requirements
-
-Python 3.9 or higher.
+This package follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions. As the library is in initial development and has a major version of `0`, APIs may change at any time.
 
 ## Contributing
 
