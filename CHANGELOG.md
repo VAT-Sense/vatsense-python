@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.3.0 (2026-03-27)
+
+Full Changelog: [v0.2.2...v0.3.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.2.2...v0.3.0)
+
+### Features
+
+* **internal:** implement indices array format for query and form serialization ([f95a996](https://github.com/VAT-Sense/vatsense-python/commit/f95a996c18196d0de1fd9eea2a705918d479617d))
+
+
+### Bug Fixes
+
+* sanitize endpoint path params ([240c360](https://github.com/VAT-Sense/vatsense-python/commit/240c3603ff0990149757ba2a0b0f13f6f01ee242))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([a43372b](https://github.com/VAT-Sense/vatsense-python/commit/a43372b63309452fd5d028fa6ec22f268b6252c3))
+* **internal:** update gitignore ([ecb215d](https://github.com/VAT-Sense/vatsense-python/commit/ecb215df4b173aa767b25f04968a6afd6092e5b0))
+
+
+### Documentation
+
+* **readme:** tailor README to VAT Sense use cases ([efd58d1](https://github.com/VAT-Sense/vatsense-python/commit/efd58d1bed64eebdddaa2559728e434cb676cf15))
+
 ## 0.2.2 (2026-03-18)
 
 Full Changelog: [v0.2.1...v0.2.2](https://github.com/VAT-Sense/vatsense-python/compare/v0.2.1...v0.2.2)
