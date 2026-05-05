@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.4.0 (2026-05-01)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* support setting headers via env ([56fb16a](https://github.com/VAT-Sense/vatsense-python/commit/56fb16a84bff6103e748a7028596a07cf8d97ec6))
+
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([90b51b6](https://github.com/VAT-Sense/vatsense-python/commit/90b51b6213a75669ef10259a802285d62efccbb2))
+* ensure file data are only sent as 1 parameter ([41db391](https://github.com/VAT-Sense/vatsense-python/commit/41db3915d4d036141f73a5119c07822438eb6416))
+* use correct field name format for multipart file arrays ([8741166](https://github.com/VAT-Sense/vatsense-python/commit/8741166d18d87a6c3be60369b7c967adc702d7ad))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([980688b](https://github.com/VAT-Sense/vatsense-python/commit/980688b685ec0aeac708d9874593a13bbe71eb24))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([7bc1e82](https://github.com/VAT-Sense/vatsense-python/commit/7bc1e821333e38a21745e20ce713f5e84fe4d204))
+* **internal:** reformat pyproject.toml ([9c70c10](https://github.com/VAT-Sense/vatsense-python/commit/9c70c10badcf091be0e39f036d0ffa9c77ed7339))
+
 ## 0.3.0 (2026-03-27)
 
 Full Changelog: [v0.2.2...v0.3.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.2.2...v0.3.0)
