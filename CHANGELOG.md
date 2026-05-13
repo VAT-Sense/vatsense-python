@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.0 (2026-05-13)
+
+Full Changelog: [v0.4.0...v0.5.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.4.0...v0.5.0)
+
+### Features
+
+* **internal/types:** support eagerly validating pydantic iterators ([9533f72](https://github.com/VAT-Sense/vatsense-python/commit/9533f72bfae393938555bf4ce8ef58d52f92b367))
+
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([7f5ec0a](https://github.com/VAT-Sense/vatsense-python/commit/7f5ec0a5e40652ec862acc9dd3540f4c8149f78f))
+
 ## 0.4.0 (2026-05-01)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.3.0...v0.4.0)
