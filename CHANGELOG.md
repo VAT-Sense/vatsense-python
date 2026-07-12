@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.1 (2026-06-18)
+
+Full Changelog: [v0.5.0...v0.5.1](https://github.com/VAT-Sense/vatsense-python/compare/v0.5.0...v0.5.1)
+
+### Bug Fixes
+
+* **auth:** prioritize first auth header ([a48a96e](https://github.com/VAT-Sense/vatsense-python/commit/a48a96e30e7c471fd68534983913a9fe2f75df64))
+
 ## 0.5.0 (2026-05-13)
 
 Full Changelog: [v0.4.0...v0.5.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.4.0...v0.5.0)
