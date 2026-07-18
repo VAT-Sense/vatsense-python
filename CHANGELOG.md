@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0 (2026-07-18)
+
+Full Changelog: [v0.5.1...v0.6.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.5.1...v0.6.0)
+
+### Features
+
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([a629f7b](https://github.com/VAT-Sense/vatsense-python/commit/a629f7bc1b4d6c31e0ef0fecd188c9928736b399))
+
+
+### Bug Fixes
+
+* **internal:** resolve build failures ([d3a4e30](https://github.com/VAT-Sense/vatsense-python/commit/d3a4e30b85956784428484638aeb4fdd2b175a69))
+
 ## 0.5.1 (2026-06-18)
 
 Full Changelog: [v0.5.0...v0.5.1](https://github.com/VAT-Sense/vatsense-python/compare/v0.5.0...v0.5.1)
