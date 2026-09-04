@@ -12,7 +12,10 @@ __all__ = ["TaxRate"]
 
 class TaxRate(BaseModel):
     class_: Optional[str] = FieldInfo(alias="class", default=None)
-    """The rate class (e.g. "standard", "reduced", "zero")."""
+    """The rate tier within its tax (e.g.
+
+    "standard", "reduced", "higher", "zero", "exempt").
+    """
 
     description: Optional[str] = None
     """A description of what goods/services this rate applies to."""
@@ -21,6 +24,13 @@ class TaxRate(BaseModel):
 
     rate: Optional[float] = None
     """The tax rate percentage."""
+
+    tax_name: Optional[str] = None
+    """Short name of the tax this rate belongs to (e.g.
+
+    "vat", "gst", "hst", "pst", "qst", "igic", "sst"). Open vocabulary, lower case.
+    Null where not yet classified.
+    """
 
     types: Union[str, bool, None] = None
     """
