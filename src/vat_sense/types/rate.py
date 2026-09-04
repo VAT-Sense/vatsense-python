@@ -15,6 +15,11 @@ class Other(TaxRate):
 
 
 class Rate(BaseModel):
+    """A country's rate listing.
+
+    For an overseas territory queried by its own ISO code (e.g. "NC"), country_code and country_name identify the territory and `standard` also carries a `province` key naming the parent country's province the rate is stored under.
+    """
+
     country_code: Optional[str] = None
     """2-character ISO 3166-1 alpha-2 country code."""
 

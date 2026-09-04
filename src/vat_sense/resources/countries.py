@@ -64,7 +64,12 @@ class CountriesResource(SyncAPIResource):
         You can optionally filter by country code or IP address.
 
         Args:
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           ip_address: An IPv4 or IPv6 address. If provided, the country will be determined from the IP
               address.
@@ -177,7 +182,12 @@ class AsyncCountriesResource(AsyncAPIResource):
         You can optionally filter by country code or IP address.
 
         Args:
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           ip_address: An IPv4 or IPv6 address. If provided, the country will be determined from the IP
               address.

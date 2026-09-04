@@ -72,7 +72,12 @@ class RatesResource(SyncAPIResource):
         You can optionally filter by country code, IP address, or EU membership.
 
         Args:
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           eu: Filter results by EU membership. Use 1 for EU countries only, 0 for non-EU only.
 
@@ -138,7 +143,12 @@ class RatesResource(SyncAPIResource):
 
           tax_type: Whether the provided price is inclusive or exclusive of VAT.
 
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           eu: Filter results by EU membership. Use 1 for EU countries only, 0 for non-EU only.
 
@@ -203,7 +213,12 @@ class RatesResource(SyncAPIResource):
         classes (standard, reduced, zero, etc.).
 
         Args:
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           eu: Filter results by EU membership. Use 1 for EU countries only, 0 for non-EU only.
 
@@ -276,7 +291,12 @@ class RatesResource(SyncAPIResource):
         returned, indicating no tax applies.
 
         Args:
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           eu: Filter results by EU membership. Use 1 for EU countries only, 0 for non-EU only.
 
@@ -389,7 +409,12 @@ class AsyncRatesResource(AsyncAPIResource):
         You can optionally filter by country code, IP address, or EU membership.
 
         Args:
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           eu: Filter results by EU membership. Use 1 for EU countries only, 0 for non-EU only.
 
@@ -455,7 +480,12 @@ class AsyncRatesResource(AsyncAPIResource):
 
           tax_type: Whether the provided price is inclusive or exclusive of VAT.
 
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           eu: Filter results by EU membership. Use 1 for EU countries only, 0 for non-EU only.
 
@@ -520,7 +550,12 @@ class AsyncRatesResource(AsyncAPIResource):
         classes (standard, reduced, zero, etc.).
 
         Args:
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           eu: Filter results by EU membership. Use 1 for EU countries only, 0 for non-EU only.
 
@@ -593,7 +628,12 @@ class AsyncRatesResource(AsyncAPIResource):
         returned, indicating no tax applies.
 
         Args:
-          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR").
+          country_code: A 2-character ISO 3166-1 alpha-2 country code (e.g. "GB", "FR"). Overseas
+              territories that carry their own ISO code but are modelled as provinces of a
+              parent country (e.g. "NC" New Caledonia, "MF" Saint Martin, "GP", "MQ", "RE",
+              "PF", "GF", "YT", "BL", "PM", "WF" under "FR") may be queried directly; the
+              response identifies the territory and the rate is the one the
+              parent-plus-province query returns.
 
           eu: Filter results by EU membership. Use 1 for EU countries only, 0 for non-EU only.
 
