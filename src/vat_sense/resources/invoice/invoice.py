@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -21,7 +21,7 @@ from ...types import (
     invoice_update_params,
 )
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -84,11 +84,13 @@ class InvoiceResource(SyncAPIResource):
         is_copy: bool | Omit = omit,
         is_reverse_charge: bool | Omit = omit,
         notes: str | Omit = omit,
+        original_invoice_id: Optional[str] | Omit = omit,
         pad_invoice_number: int | Omit = omit,
         serial: str | Omit = omit,
         tax_type: Literal["incl", "excl"] | Omit = omit,
         type: Literal["sale", "refund"] | Omit = omit,
         zero_rated: bool | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -102,6 +104,10 @@ class InvoiceResource(SyncAPIResource):
         totals based on the items provided.
 
         Not available with sandbox API keys.
+
+        Send an `Idempotency-Key` to retry a create safely: a repeat with the same key
+        and the same body, byte for byte, creates nothing and returns the invoice the
+        first request made.
 
         Args:
           currency_code: The 3-character currency code the invoice is billed in.
@@ -121,6 +127,10 @@ class InvoiceResource(SyncAPIResource):
 
           notes: Any additional notes for the invoice.
 
+          original_invoice_id: For a credit note: the ID of your own sale invoice it credits. Only a `refund`
+              can name one; anything else gets `400` "Invalid Original Invoice ID". The credit
+              note is then headed "Credit note".
+
           pad_invoice_number: Pad the auto-generated invoice number with leading zeros to this length.
 
           serial: A serial prepended to the auto-generated invoice number. Each unique serial has
@@ -132,6 +142,10 @@ class InvoiceResource(SyncAPIResource):
 
           zero_rated: Whether the invoice has been zero-rated.
 
+          idempotency_key: Sent as the `Idempotency-Key` header. 1 to 255 characters, unique to this
+              invoice (such as your order number or a UUID). The same key with a different
+              body gets `422` "Idempotency Key Reused".
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -140,6 +154,7 @@ class InvoiceResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return self._post(
             "/invoice",
             body=maybe_transform(
@@ -156,6 +171,7 @@ class InvoiceResource(SyncAPIResource):
                     "is_copy": is_copy,
                     "is_reverse_charge": is_reverse_charge,
                     "notes": notes,
+                    "original_invoice_id": original_invoice_id,
                     "pad_invoice_number": pad_invoice_number,
                     "serial": serial,
                     "tax_type": tax_type,
@@ -430,11 +446,13 @@ class AsyncInvoiceResource(AsyncAPIResource):
         is_copy: bool | Omit = omit,
         is_reverse_charge: bool | Omit = omit,
         notes: str | Omit = omit,
+        original_invoice_id: Optional[str] | Omit = omit,
         pad_invoice_number: int | Omit = omit,
         serial: str | Omit = omit,
         tax_type: Literal["incl", "excl"] | Omit = omit,
         type: Literal["sale", "refund"] | Omit = omit,
         zero_rated: bool | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -448,6 +466,10 @@ class AsyncInvoiceResource(AsyncAPIResource):
         totals based on the items provided.
 
         Not available with sandbox API keys.
+
+        Send an `Idempotency-Key` to retry a create safely: a repeat with the same key
+        and the same body, byte for byte, creates nothing and returns the invoice the
+        first request made.
 
         Args:
           currency_code: The 3-character currency code the invoice is billed in.
@@ -467,6 +489,10 @@ class AsyncInvoiceResource(AsyncAPIResource):
 
           notes: Any additional notes for the invoice.
 
+          original_invoice_id: For a credit note: the ID of your own sale invoice it credits. Only a `refund`
+              can name one; anything else gets `400` "Invalid Original Invoice ID". The credit
+              note is then headed "Credit note".
+
           pad_invoice_number: Pad the auto-generated invoice number with leading zeros to this length.
 
           serial: A serial prepended to the auto-generated invoice number. Each unique serial has
@@ -478,6 +504,10 @@ class AsyncInvoiceResource(AsyncAPIResource):
 
           zero_rated: Whether the invoice has been zero-rated.
 
+          idempotency_key: Sent as the `Idempotency-Key` header. 1 to 255 characters, unique to this
+              invoice (such as your order number or a UUID). The same key with a different
+              body gets `422` "Idempotency Key Reused".
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -486,6 +516,7 @@ class AsyncInvoiceResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"Idempotency-Key": idempotency_key}), **(extra_headers or {})}
         return await self._post(
             "/invoice",
             body=await async_maybe_transform(
@@ -502,6 +533,7 @@ class AsyncInvoiceResource(AsyncAPIResource):
                     "is_copy": is_copy,
                     "is_reverse_charge": is_reverse_charge,
                     "notes": notes,
+                    "original_invoice_id": original_invoice_id,
                     "pad_invoice_number": pad_invoice_number,
                     "serial": serial,
                     "tax_type": tax_type,

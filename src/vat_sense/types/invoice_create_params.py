@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Iterable
-from typing_extensions import Literal, Required, TypedDict
+from typing import Iterable, Optional
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from .._utils import PropertyInfo
 from .invoice_business_input_param import InvoiceBusinessInputParam
 from .invoice_customer_input_param import InvoiceCustomerInputParam
 from .invoice_conversion_input_param import InvoiceConversionInputParam
@@ -49,6 +50,13 @@ class InvoiceCreateParams(TypedDict, total=False):
     notes: str
     """Any additional notes for the invoice."""
 
+    original_invoice_id: Optional[str]
+    """For a credit note: the ID of your own sale invoice it credits.
+
+    Only a `refund` can name one; anything else gets `400` "Invalid Original Invoice
+    ID". The credit note is then headed "Credit note".
+    """
+
     pad_invoice_number: int
     """Pad the auto-generated invoice number with leading zeros to this length."""
 
@@ -66,3 +74,10 @@ class InvoiceCreateParams(TypedDict, total=False):
 
     zero_rated: bool
     """Whether the invoice has been zero-rated."""
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]
+    """Sent as the `Idempotency-Key` header to retry a create safely.
+
+    A repeat with the same key and the same body, byte for byte, creates nothing
+    and returns the invoice the first request made.
+    """

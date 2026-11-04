@@ -69,7 +69,11 @@ class Invoice(BaseModel):
     invoice_number: Optional[str] = None
 
     invoice_url: Optional[str] = None
-    """Unique URL to view the invoice. Append "/pdf" to download a PDF copy."""
+    """Unique, unguessable URL to view the invoice.
+
+    Append "/pdf" to download a PDF copy. Invoices created before the November 2026
+    relaunch keep their earlier style of link.
+    """
 
     is_copy: Optional[bool] = None
 
@@ -82,6 +86,9 @@ class Invoice(BaseModel):
     num_items: Optional[int] = None
 
     object: Optional[Literal["invoice"]] = None
+
+    original_invoice_id: Optional[str] = None
+    """On a credit note that names the sale invoice it credits: that invoice's ID."""
 
     tax_point: Optional[str] = None
 

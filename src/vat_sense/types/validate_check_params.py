@@ -15,6 +15,32 @@ class ValidateCheckParams(TypedDict, total=False):
     and EU only.
     """
 
+    match_address: str
+    """
+    The whole address you hold, as one line, matched against the registered
+    address.
+    """
+
+    match_city: str
+    """The town or city you hold, looked for in the registered address."""
+
+    match_company_name: str
+    """The company name you hold, matched against the registered name.
+
+    Legal forms such as Ltd or GmbH, accents, punctuation and word order are
+    ignored. Sending any `match_` parameter adds `match` to the response; matching
+    costs nothing extra.
+    """
+
+    match_postcode: str
+    """The postcode you hold, looked for in the registered address.
+
+    Spaces are ignored.
+    """
+
+    match_street: str
+    """The street line you hold, looked for in the registered address."""
+
     requester_vat_number: str
     """Your own VAT number.
 
