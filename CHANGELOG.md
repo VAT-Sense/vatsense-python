@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.6.1...v0.7.0) (2026-11-05)
+
+
+### Features
+
+* **api:** company matching, provinces filter, Idempotency-Key and credit notes ([#11](https://github.com/VAT-Sense/vatsense-python/issues/11)) ([ce49b42](https://github.com/VAT-Sense/vatsense-python/commit/ce49b428497d8baeb4a8fa376a9636d70b584278))
+
 ## 0.6.1 (2026-09-04)
 
 Full Changelog: [v0.6.0...v0.6.1](https://github.com/VAT-Sense/vatsense-python/compare/v0.6.0...v0.6.1)
