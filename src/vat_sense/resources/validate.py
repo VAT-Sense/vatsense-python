@@ -47,6 +47,11 @@ class ValidateResource(SyncAPIResource):
         self,
         *,
         eori_number: str | Omit = omit,
+        match_address: str | Omit = omit,
+        match_city: str | Omit = omit,
+        match_company_name: str | Omit = omit,
+        match_postcode: str | Omit = omit,
+        match_street: str | Omit = omit,
         requester_vat_number: str | Omit = omit,
         vat_number: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -66,13 +71,33 @@ class ValidateResource(SyncAPIResource):
         **EORI validation** checks against UK and EU records only.
 
         If the external validation service is temporarily unavailable, the API returns a
-        `412` error and the request does not count against your usage quota.
+        `412` error and the request does not count against your usage quota. It also
+        returns the `412`, uncounted, when a check takes longer than 55 seconds for a
+        number checked with VIES or the EU EORI service, or 25 seconds for any other.
+        With a webhook endpoint taking `validation.completed`, a number that got the
+        `412` keeps being checked and the answer is sent by webhook
+        (https://vatsense.com/documentation#webhooks).
 
         Provide either `vat_number` or `eori_number`, but not both.
 
         Args:
           eori_number: The EORI number to validate. Must include the leading 2-character country code
               (e.g. "GB123456789123"). UK and EU only.
+
+          match_address: The whole address you hold, as one line, matched against the registered
+              address.
+
+          match_city: The town or city you hold, looked for in the registered address.
+
+          match_company_name: The company name you hold, matched against the registered name. Legal forms
+              such as Ltd or GmbH, accents, punctuation and word order are ignored. Sending
+              any `match_` parameter adds `match` to the response; matching costs nothing
+              extra.
+
+          match_postcode: The postcode you hold, looked for in the registered address. Spaces are
+              ignored.
+
+          match_street: The street line you hold, looked for in the registered address.
 
           requester_vat_number: Your own VAT number. If supplied, the response will include a unique
               consultation number issued by the relevant authority (VIES or HMRC). Must
@@ -102,6 +127,11 @@ class ValidateResource(SyncAPIResource):
                 query=maybe_transform(
                     {
                         "eori_number": eori_number,
+                        "match_address": match_address,
+                        "match_city": match_city,
+                        "match_company_name": match_company_name,
+                        "match_postcode": match_postcode,
+                        "match_street": match_street,
                         "requester_vat_number": requester_vat_number,
                         "vat_number": vat_number,
                     },
@@ -138,6 +168,11 @@ class AsyncValidateResource(AsyncAPIResource):
         self,
         *,
         eori_number: str | Omit = omit,
+        match_address: str | Omit = omit,
+        match_city: str | Omit = omit,
+        match_company_name: str | Omit = omit,
+        match_postcode: str | Omit = omit,
+        match_street: str | Omit = omit,
         requester_vat_number: str | Omit = omit,
         vat_number: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -157,13 +192,33 @@ class AsyncValidateResource(AsyncAPIResource):
         **EORI validation** checks against UK and EU records only.
 
         If the external validation service is temporarily unavailable, the API returns a
-        `412` error and the request does not count against your usage quota.
+        `412` error and the request does not count against your usage quota. It also
+        returns the `412`, uncounted, when a check takes longer than 55 seconds for a
+        number checked with VIES or the EU EORI service, or 25 seconds for any other.
+        With a webhook endpoint taking `validation.completed`, a number that got the
+        `412` keeps being checked and the answer is sent by webhook
+        (https://vatsense.com/documentation#webhooks).
 
         Provide either `vat_number` or `eori_number`, but not both.
 
         Args:
           eori_number: The EORI number to validate. Must include the leading 2-character country code
               (e.g. "GB123456789123"). UK and EU only.
+
+          match_address: The whole address you hold, as one line, matched against the registered
+              address.
+
+          match_city: The town or city you hold, looked for in the registered address.
+
+          match_company_name: The company name you hold, matched against the registered name. Legal forms
+              such as Ltd or GmbH, accents, punctuation and word order are ignored. Sending
+              any `match_` parameter adds `match` to the response; matching costs nothing
+              extra.
+
+          match_postcode: The postcode you hold, looked for in the registered address. Spaces are
+              ignored.
+
+          match_street: The street line you hold, looked for in the registered address.
 
           requester_vat_number: Your own VAT number. If supplied, the response will include a unique
               consultation number issued by the relevant authority (VIES or HMRC). Must
@@ -193,6 +248,11 @@ class AsyncValidateResource(AsyncAPIResource):
                 query=await async_maybe_transform(
                     {
                         "eori_number": eori_number,
+                        "match_address": match_address,
+                        "match_city": match_city,
+                        "match_company_name": match_company_name,
+                        "match_postcode": match_postcode,
+                        "match_street": match_street,
                         "requester_vat_number": requester_vat_number,
                         "vat_number": vat_number,
                     },

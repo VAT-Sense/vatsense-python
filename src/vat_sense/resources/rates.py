@@ -57,6 +57,7 @@ class RatesResource(SyncAPIResource):
         eu: bool | Omit = omit,
         ip_address: str | Omit = omit,
         period: Union[str, datetime] | Omit = omit,
+        provinces: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -87,6 +88,11 @@ class RatesResource(SyncAPIResource):
           period: A historical date to retrieve rates for (format "YYYY-MM-DD HH:MM:SS"). Must be
               a past date.
 
+          provinces: Whether to list province and territory rates (rate objects that carry a
+              `province` property) in each country's `other` list. Pass false to leave them
+              out, so only country-wide rates are listed; true, or omitting the parameter,
+              lists them as before. The `standard` rate is always the country-wide one.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -108,6 +114,7 @@ class RatesResource(SyncAPIResource):
                         "eu": eu,
                         "ip_address": ip_address,
                         "period": period,
+                        "provinces": provinces,
                     },
                     rate_list_params.RateListParams,
                 ),
@@ -394,6 +401,7 @@ class AsyncRatesResource(AsyncAPIResource):
         eu: bool | Omit = omit,
         ip_address: str | Omit = omit,
         period: Union[str, datetime] | Omit = omit,
+        provinces: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -424,6 +432,11 @@ class AsyncRatesResource(AsyncAPIResource):
           period: A historical date to retrieve rates for (format "YYYY-MM-DD HH:MM:SS"). Must be
               a past date.
 
+          provinces: Whether to list province and territory rates (rate objects that carry a
+              `province` property) in each country's `other` list. Pass false to leave them
+              out, so only country-wide rates are listed; true, or omitting the parameter,
+              lists them as before. The `standard` rate is always the country-wide one.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -445,6 +458,7 @@ class AsyncRatesResource(AsyncAPIResource):
                         "eu": eu,
                         "ip_address": ip_address,
                         "period": period,
+                        "provinces": provinces,
                     },
                     rate_list_params.RateListParams,
                 ),

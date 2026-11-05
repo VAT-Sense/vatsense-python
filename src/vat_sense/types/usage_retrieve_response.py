@@ -12,10 +12,13 @@ class DataRequests(BaseModel):
     """Requests remaining before the limit is reached."""
 
     total: Optional[int] = None
-    """Total requests allowed on your plan."""
+    """
+    Requests available in the current billing period (plan, request packs and,
+    while overage is on, the overage allowed).
+    """
 
     used: Optional[int] = None
-    """Requests used in the last 30 days."""
+    """Requests used so far in the current billing period."""
 
 
 class Data(BaseModel):
