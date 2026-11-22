@@ -37,9 +37,10 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import rates, usage, invoice, sandbox, currency, validate, countries
+    from .resources import rates, usage, batches, invoice, sandbox, currency, validate, countries
     from .resources.rates import RatesResource, AsyncRatesResource
     from .resources.usage import UsageResource, AsyncUsageResource
+    from .resources.batches import BatchesResource, AsyncBatchesResource
     from .resources.sandbox import SandboxResource, AsyncSandboxResource
     from .resources.currency import CurrencyResource, AsyncCurrencyResource
     from .resources.validate import ValidateResource, AsyncValidateResource
@@ -182,6 +183,13 @@ class VatSense(SyncAPIClient):
         from .resources.sandbox import SandboxResource
 
         return SandboxResource(self)
+
+    @cached_property
+    def batches(self) -> BatchesResource:
+        """Bulk validation: check many VAT numbers in one batch"""
+        from .resources.batches import BatchesResource
+
+        return BatchesResource(self)
 
     @cached_property
     def with_raw_response(self) -> VatSenseWithRawResponse:
@@ -432,6 +440,13 @@ class AsyncVatSense(AsyncAPIClient):
         return AsyncSandboxResource(self)
 
     @cached_property
+    def batches(self) -> AsyncBatchesResource:
+        """Bulk validation: check many VAT numbers in one batch"""
+        from .resources.batches import AsyncBatchesResource
+
+        return AsyncBatchesResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncVatSenseWithRawResponse:
         return AsyncVatSenseWithRawResponse(self)
 
@@ -609,6 +624,13 @@ class VatSenseWithRawResponse:
 
         return SandboxResourceWithRawResponse(self._client.sandbox)
 
+    @cached_property
+    def batches(self) -> batches.BatchesResourceWithRawResponse:
+        """Bulk validation: check many VAT numbers in one batch"""
+        from .resources.batches import BatchesResourceWithRawResponse
+
+        return BatchesResourceWithRawResponse(self._client.batches)
+
 
 class AsyncVatSenseWithRawResponse:
     _client: AsyncVatSense
@@ -664,6 +686,13 @@ class AsyncVatSenseWithRawResponse:
         from .resources.sandbox import AsyncSandboxResourceWithRawResponse
 
         return AsyncSandboxResourceWithRawResponse(self._client.sandbox)
+
+    @cached_property
+    def batches(self) -> batches.AsyncBatchesResourceWithRawResponse:
+        """Bulk validation: check many VAT numbers in one batch"""
+        from .resources.batches import AsyncBatchesResourceWithRawResponse
+
+        return AsyncBatchesResourceWithRawResponse(self._client.batches)
 
 
 class VatSenseWithStreamedResponse:
@@ -721,6 +750,13 @@ class VatSenseWithStreamedResponse:
 
         return SandboxResourceWithStreamingResponse(self._client.sandbox)
 
+    @cached_property
+    def batches(self) -> batches.BatchesResourceWithStreamingResponse:
+        """Bulk validation: check many VAT numbers in one batch"""
+        from .resources.batches import BatchesResourceWithStreamingResponse
+
+        return BatchesResourceWithStreamingResponse(self._client.batches)
+
 
 class AsyncVatSenseWithStreamedResponse:
     _client: AsyncVatSense
@@ -776,6 +812,13 @@ class AsyncVatSenseWithStreamedResponse:
         from .resources.sandbox import AsyncSandboxResourceWithStreamingResponse
 
         return AsyncSandboxResourceWithStreamingResponse(self._client.sandbox)
+
+    @cached_property
+    def batches(self) -> batches.AsyncBatchesResourceWithStreamingResponse:
+        """Bulk validation: check many VAT numbers in one batch"""
+        from .resources.batches import AsyncBatchesResourceWithStreamingResponse
+
+        return AsyncBatchesResourceWithStreamingResponse(self._client.batches)
 
 
 Client = VatSense

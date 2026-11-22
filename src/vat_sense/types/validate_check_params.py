@@ -8,6 +8,12 @@ __all__ = ["ValidateCheckParams"]
 
 
 class ValidateCheckParams(TypedDict, total=False):
+    consultation_optional: bool
+    """
+    With `requester_vat_number`: answer from a national register, with no
+    `consultation_number`, when VIES cannot answer, instead of the `412`.
+    """
+
     eori_number: str
     """The EORI number to validate.
 

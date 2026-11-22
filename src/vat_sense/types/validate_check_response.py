@@ -77,6 +77,12 @@ class DataMatch(BaseModel):
 class Data(BaseModel):
     company: Optional[DataCompany] = None
 
+    confirmation_number: Optional[str] = None
+    """
+    VAT Sense's own reference for this check (beta, only for accounts in the
+    beta). It is not an official number.
+    """
+
     consultation_number: Optional[str] = None
     """
     Official consultation number (only returned when requester_vat_number is

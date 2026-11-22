@@ -2,7 +2,7 @@
 
 import typing as _t
 
-from . import types
+from . import types, webhooks as webhooks
 from ._types import NOT_GIVEN, Omit, NoneType, NotGiven, Transport, ProxiesTypes, omit, not_given
 from ._utils import file_from_path
 from ._client import (
