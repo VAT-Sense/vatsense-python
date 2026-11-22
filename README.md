@@ -68,6 +68,64 @@ print(response.data.consultation_number)
 
 > **Note:** GB requester numbers only work for GB validations, and EU requester numbers only work for EU validations. Cross-region requests are not supported.
 
+If you would rather have an answer than wait for a consultation number when VIES is down, send `consultation_optional=True`. Where a national register can confirm the number, you get the answer with no `consultation_number` instead of the `412`:
+
+```python
+response = client.validate.check(
+    vat_number="FR12345678901",
+    requester_vat_number="FR98765432101",
+    consultation_optional=True,
+)
+```
+
+### Check many numbers at once (batches)
+
+A batch checks a list of VAT numbers, as the dashboard's bulk validator does with a file. Batch calls are free and each number checked counts as one request. With a test key the batch is answered from the test numbers and costs nothing.
+
+```python
+import time
+
+batch = client.batches.create(
+    numbers=["GB288305674", "FR12345678901"],
+    reference="November customers",
+    idempotency_key="november-customers",
+).data
+
+while client.batches.retrieve(batch.id).data.status not in ("complete", "paused", "expired"):
+    time.sleep(10)
+
+after = 0
+while True:
+    page = client.batches.results(batch.id, after=after, limit=1000).data
+    for row in page.data:
+        print(row.vat_number, row.result, row.company_name)
+    if not page.has_more:
+        break
+    after = page.next_after
+
+csv_report = client.batches.results_csv(batch.id)
+```
+
+Use `rows=[{"vat_number": ..., "company_name": ..., "postcode": ...}]` instead of `numbers` for company matching. A batch can also be paused, continued (`continue_`), completed and, while a draft, deleted. Instead of polling, take the `batch.completed` webhook.
+
+### Check a webhook's signature
+
+Every webhook event carries a `VatSense-Signature` header. Check it against the raw request body with the endpoint's signing secret before trusting the event:
+
+```python
+from vat_sense.webhooks import construct_event, WebhookSignatureError
+
+try:
+    event = construct_event(raw_body, headers["VatSense-Signature"], "whsec_...")
+except WebhookSignatureError:
+    return 400  # not from VAT Sense, or too old
+
+if event["type"] == "batch.completed":
+    ...
+```
+
+Events more than 5 minutes old are refused (change it with `tolerance=`). During the 24 hours after a secret is rolled, events signed with either secret are accepted.
+
 ### Find the VAT rate for a country
 
 ```python
@@ -200,6 +258,7 @@ response = client.validate.check(vat_number="GB288305674", timeout=5.0)
 | `client.rates`       | VAT/GST rate lookups, price calculations         |
 | `client.countries`   | Country data and province lookups                |
 | `client.currency`    | Exchange rates and currency conversion           |
+| `client.batches`     | Check many VAT numbers in one batch              |
 | `client.invoice`     | Create and manage VAT-compliant invoices         |
 | `client.usage`       | Check your API usage                             |
 

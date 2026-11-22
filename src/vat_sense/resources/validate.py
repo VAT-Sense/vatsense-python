@@ -46,6 +46,7 @@ class ValidateResource(SyncAPIResource):
     def check(
         self,
         *,
+        consultation_optional: bool | Omit = omit,
         eori_number: str | Omit = omit,
         match_address: str | Omit = omit,
         match_city: str | Omit = omit,
@@ -81,6 +82,14 @@ class ValidateResource(SyncAPIResource):
         Provide either `vat_number` or `eori_number`, but not both.
 
         Args:
+          consultation_optional: Send `True` with `requester_vat_number` if you would rather have an answer
+              than wait for a consultation number. When VIES cannot answer for the number's
+              country and that country has a national register fallback, the answer comes
+              from the register with no `consultation_number`, instead of the `412`. If VIES
+              cannot check your own `requester_vat_number`, the number is checked without it,
+              again with no `consultation_number`. Leave it out if you need the consultation
+              number as proof of the check.
+
           eori_number: The EORI number to validate. Must include the leading 2-character country code
               (e.g. "GB123456789123"). UK and EU only.
 
@@ -126,6 +135,7 @@ class ValidateResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "consultation_optional": consultation_optional,
                         "eori_number": eori_number,
                         "match_address": match_address,
                         "match_city": match_city,
@@ -167,6 +177,7 @@ class AsyncValidateResource(AsyncAPIResource):
     async def check(
         self,
         *,
+        consultation_optional: bool | Omit = omit,
         eori_number: str | Omit = omit,
         match_address: str | Omit = omit,
         match_city: str | Omit = omit,
@@ -202,6 +213,14 @@ class AsyncValidateResource(AsyncAPIResource):
         Provide either `vat_number` or `eori_number`, but not both.
 
         Args:
+          consultation_optional: Send `True` with `requester_vat_number` if you would rather have an answer
+              than wait for a consultation number. When VIES cannot answer for the number's
+              country and that country has a national register fallback, the answer comes
+              from the register with no `consultation_number`, instead of the `412`. If VIES
+              cannot check your own `requester_vat_number`, the number is checked without it,
+              again with no `consultation_number`. Leave it out if you need the consultation
+              number as proof of the check.
+
           eori_number: The EORI number to validate. Must include the leading 2-character country code
               (e.g. "GB123456789123"). UK and EU only.
 
@@ -247,6 +266,7 @@ class AsyncValidateResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
+                        "consultation_optional": consultation_optional,
                         "eori_number": eori_number,
                         "match_address": match_address,
                         "match_city": match_city,
