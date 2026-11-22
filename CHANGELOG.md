@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.7.0...v0.8.0) (2026-11-22)
+
+
+### Features
+
+* **api:** batches, consultation_optional, confirmation_number and webhook signatures ([#13](https://github.com/VAT-Sense/vatsense-python/issues/13)) ([d2b483a](https://github.com/VAT-Sense/vatsense-python/commit/d2b483a5c11902ceade3be0f25581fa86157bad6))
+
 ## [0.7.0](https://github.com/VAT-Sense/vatsense-python/compare/v0.6.1...v0.7.0) (2026-11-05)
 
 
